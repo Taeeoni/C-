@@ -1,6 +1,6 @@
 #include <stdio.h>
 	
-	int yearMonthDay = 20220418; // 현재날짜 
+	int yearMonthDay = 20220420; // 현재날짜 
 	int companionIndex = 0; //
 	void companionPossible();	
 	
@@ -330,7 +330,7 @@ void csvPrint(){
 }
 
 
-void entrancePrint(int inputList[][6], int position, int companionPrint){
+int entrancePrint(int inputList[][6], int position, int companionPrint){
 	
 	FILE *fp;
 	fp = fopen("C:\\test\\lotteworldreport\\report.csv", "a");
@@ -352,6 +352,7 @@ void entrancePrint(int inputList[][6], int position, int companionPrint){
 		    
 	}
 	printf("입장료 총액은 %d원 입니다.\n", totalPrice);
+	return 2;
 	
 	fclose(fp); 
 }
@@ -367,12 +368,13 @@ int continuePrint(int inputList[][6], int position, int companionPrint){
 	if(continueSelect == 1){
 		return 0;
 	} else if(continueSelect == 2){
-		entrancePrint(inputList, position, companionPrint);	
-		return 0;
+		int reset;
+		reset = entrancePrint(inputList, position, companionPrint);	
+		return reset;
 	} else if(continueSelect == 33){ // 숨겨진 번호 33을 누르면 시스템 종료  
 		return 1;
 	}
-	position++; // 배열위치 변경 	
+	
 }
 
 void companionPossible(){
@@ -393,9 +395,11 @@ int main() {
 		inputData(position, inputList, companionPrint);	
 		//고객정보 저장  
 		int exitIndex = continuePrint(inputList, position, companionPrint);	
-		position = 0; 
+		position++; // 배열위치 변경 	
 		if (exitIndex == 1){
 			break;
+		} else if (exitIndex == 2){
+			position = 0;
 		}
 	}
 }
